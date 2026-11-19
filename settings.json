@@ -130,7 +130,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/chuck/research/dotclaude/hooks/ntfy-push.sh",
+            "command": "$HOME/github/dotclaude/hooks/ntfy-push.sh",
             "timeout": 15
           }
         ]
@@ -141,7 +141,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/chuck/research/dotclaude/hooks/cancel-ntfy-pending.sh",
+            "command": "$HOME/github/dotclaude/hooks/cancel-ntfy-pending.sh",
             "timeout": 5
           }
         ]
