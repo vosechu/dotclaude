@@ -51,6 +51,22 @@ class SharedLinkTest < Minitest::Test
     assert_includes settings.dig('permissions', 'deny'), 'Bash(spr:*)'
   end
 
+  def test_every_hook_script_is_wired_in_settings
+    settings = JSON.parse(File.read(File.join(SRC, 'settings.json')))
+    commands = settings['hooks'].values.flatten.flat_map { |entry| entry['hooks'] }.map { |hook| hook['command'] }
+    unwired = Dir.children(File.join(SRC, 'hooks')).reject { |script| commands.any? { |cmd| cmd.include?(script) } }
+    assert_empty unwired
+  end
+
+  def test_pr_hooks_guard_bash_before_it_runs
+    settings = JSON.parse(File.read(File.join(SRC, 'settings.json')))
+    bash = settings.dig('hooks', 'PreToolUse').select { |entry| entry['matcher'] == 'Bash' }
+    commands = bash.flat_map { |entry| entry['hooks'] }.map { |hook| hook['command'] }
+    %w[gh-stack-steer.sh write-gooder-pr-body.sh].each do |script|
+      assert(commands.any? { |cmd| cmd.end_with?(script) }, "#{script} must run on PreToolUse(Bash)")
+    end
+  end
+
   def test_engineering_standards_stays_work_only
     with_home do |home|
       refute File.exist?(File.join(home, 'rules', 'engineering-standards.md'))

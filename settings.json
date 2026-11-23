@@ -114,6 +114,21 @@
         ]
       }
     ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/github/dotclaude/hooks/gh-stack-steer.sh"
+          },
+          {
+            "type": "command",
+            "command": "$HOME/github/dotclaude/hooks/write-gooder-pr-body.sh"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Bash",

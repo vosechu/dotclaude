@@ -1,3 +1,8 @@
+---
+name: avoid-ai-writing
+description: Use when drafting or editing prose someone else will read (docs, READMEs, PR and commit text, emails, summaries) to strip LLM tells: inflated vocabulary, significance statements, rule-of-three lists, "not just X but Y" constructions.
+---
+
 # Avoid AI Writing Patterns
 
 When writing, avoid these patterns that signal LLM-generated text:

@@ -34,6 +34,11 @@ class PluginTest < Minitest::Test
     assert_empty problems.map { |dir| File.basename(dir) }
   end
 
+  def test_every_skill_declares_a_description
+    assert_empty skill_dirs.select { |dir| frontmatter(File.join(dir, 'SKILL.md'))['description'].to_s.empty? }
+                           .map { |dir| File.basename(dir) }
+  end
+
   private
 
   def read_json(rel)
