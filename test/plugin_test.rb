@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-# Checks the plugin manifests and the skills and agents they would load.
+# Checks the plugin manifests and the skills they would load.
 #   ruby test/plugin_test.rb
 
 require 'minitest/autorun'
@@ -32,16 +32,6 @@ class PluginTest < Minitest::Test
       name && name != File.basename(dir)
     end
     assert_empty problems.map { |dir| File.basename(dir) }
-  end
-
-  # Docs kept in agents/ have no frontmatter and are skipped; an agent that has
-  # frontmatter must be complete.
-  def test_an_agent_with_frontmatter_declares_a_name_and_description
-    problems = Dir.glob(File.join(ROOT, 'agents', '*.md')).select do |path|
-      meta = frontmatter(path)
-      meta.any? && !(meta['name'] && meta['description'])
-    end
-    assert_empty problems.map { |path| File.basename(path) }
   end
 
   private

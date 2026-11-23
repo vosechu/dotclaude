@@ -5,7 +5,7 @@
     {
       "name": "chuck-shared",
       "source": "./",
-      "description": "Shared Claude Code skills and SLC expert agents"
+      "description": "Shared Claude Code skills"
     }
   ]
 }

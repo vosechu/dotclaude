@@ -34,7 +34,6 @@ class SharedLinkTest < Minitest::Test
     with_home do |home|
       assert File.symlink?(File.join(home, 'skills', 'write-gooder'))
       assert File.symlink?(File.join(home, 'skills', 'double-check'))
-      assert File.symlink?(File.join(home, 'agents', 'security-expert.md'))
       assert File.symlink?(File.join(home, 'rules', 'testing.md'))
       assert File.symlink?(File.join(home, 'hooks', 'learning-opportunities-commit-nudge.sh'))
       assert File.symlink?(File.join(home, 'hooks', 'gh-stack-steer.sh'))
@@ -84,7 +83,7 @@ class SharedLinkTest < Minitest::Test
 
   def test_no_nr_account_ids_in_public_content
     ids = /\b(?:1037563|313870|11044818|3172319|332029)\b/
-    hits = Dir.glob(File.join(SRC, '{skills,rules,agents}', '**', '*'))
+    hits = Dir.glob(File.join(SRC, '{skills,rules}', '**', '*'))
               .select { |f| File.file?(f) && File.read(f).match?(ids) }
     assert_empty hits, "NR account IDs must not appear in public content: #{hits}"
   end
