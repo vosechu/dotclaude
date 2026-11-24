@@ -48,6 +48,13 @@ class SharedLinkTest < Minitest::Test
     assert_includes settings.dig('permissions', 'deny'), 'Bash(spr:*)'
   end
 
+  # /plugin install writes this key into the live settings.json; a relink rebuilds
+  # that file from this one, so a missing entry silently disables the plugin.
+  def test_settings_enables_the_chuck_shared_plugin
+    settings = JSON.parse(File.read(File.join(SRC, 'settings.json')))
+    assert_equal true, settings.dig('enabledPlugins', 'chuck-shared@vosechu-dotclaude')
+  end
+
   def test_settings_declares_no_hooks_because_the_plugin_does
     settings = JSON.parse(File.read(File.join(SRC, 'settings.json')))
     refute settings.key?('hooks'), 'a hook in settings.json and in hooks/hooks.json runs twice'
