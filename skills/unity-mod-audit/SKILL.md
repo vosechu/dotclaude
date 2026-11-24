@@ -40,4 +40,4 @@ A finding is a place to read, not a verdict. Open the file and decide whether th
 
 ## Tests
 
-    ruby ~/github/research/dotclaude/skills/unity-mod-audit/scripts/audit_test.rb
+    ruby scripts/audit_test.rb
