@@ -110,7 +110,8 @@
     "learning-opportunities@learning-opportunities": true,
     "learning-opportunities-auto@learning-opportunities": false,
     "orient@learning-opportunities": true,
-    "learning-goal@learning-goal": true
+    "learning-goal@learning-goal": true,
+    "chuck-shared@vosechu-dotclaude": true
   },
   "extraKnownMarketplaces": {
     "learning-opportunities": {
