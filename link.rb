@@ -86,7 +86,7 @@ end
 
 # Items whose CHILDREN are linked individually (parent dir made real), so the
 # work layer can add its own children into the same ~/.claude dirs.
-DIR_ITEMS  = %w[agents skills rules hooks].freeze
+DIR_ITEMS  = %w[rules].freeze
 # Single-file items linked as-is — currently NONE. Both CLAUDE.md and
 # settings.json are deliberately hand-merged into ~/.claude/ rather than
 # symlinked: this repo is public and those files are personal/live, and the

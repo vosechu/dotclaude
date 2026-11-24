@@ -39,7 +39,33 @@ class PluginTest < Minitest::Test
                            .map { |dir| File.basename(dir) }
   end
 
+  def test_every_hook_script_is_wired_in_hooks_json
+    unwired = Dir.children(File.join(ROOT, 'hooks')).grep(/\.sh\z/).reject do |script|
+      hook_commands.any? { |cmd| cmd.include?("/hooks/#{script}") }
+    end
+    assert_empty unwired
+  end
+
+  def test_hook_commands_run_from_the_plugin_root_and_point_at_real_scripts
+    scripts = hook_commands.grep(%r{/hooks/})
+    refute_empty scripts
+    assert(scripts.all? { |cmd| cmd.start_with?('${CLAUDE_PLUGIN_ROOT}/hooks/') })
+    assert_empty scripts.reject { |cmd| File.executable?(cmd.sub('${CLAUDE_PLUGIN_ROOT}', ROOT)) }
+  end
+
+  def test_pr_hooks_guard_bash_before_it_runs
+    bash = read_json('hooks/hooks.json').dig('hooks', 'PreToolUse').select { |entry| entry['matcher'] == 'Bash' }
+    commands = bash.flat_map { |entry| entry['hooks'] }.map { |hook| hook['command'] }
+    %w[gh-stack-steer.sh write-gooder-pr-body.sh].each do |script|
+      assert(commands.any? { |cmd| cmd.end_with?(script) }, "#{script} must run on PreToolUse(Bash)")
+    end
+  end
+
   private
+
+  def hook_commands
+    read_json('hooks/hooks.json')['hooks'].values.flatten.flat_map { |entry| entry['hooks'] }.map { |hook| hook['command'] }
+  end
 
   def read_json(rel)
     JSON.parse(File.read(File.join(ROOT, rel)))
